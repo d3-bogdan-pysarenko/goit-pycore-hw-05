@@ -1,7 +1,7 @@
 import re
 from typing import Callable, Generator
 
-def generator_numbers(text: str) -> Generator[float, None, None]:
+def generator_numbers(text: str):
 
     # Finding mumbers that are separated with spaces
     reg_ex = r'\b\d+(?:\.\d+)?\b'
@@ -10,7 +10,7 @@ def generator_numbers(text: str) -> Generator[float, None, None]:
         yield float(num)
 
 
-def sum_profit(text: str, func: Callable[[str], Generator[float, None, None]]) -> float:
+def sum_profit(text, func: Callable[[str], Generator]) -> float:
     return sum(func(text))
 
 
