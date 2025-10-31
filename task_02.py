@@ -10,8 +10,8 @@ def generator_numbers(text: str):
         yield float(num)
 
 
-def sum_profit(text, func: Callable[[str], Generator]) -> float:
-    return sum(func(text))
+def sum_profit(text, my_function: Callable[[str], Generator]):
+    return sum(my_function(text))
 
 
 # Check time
@@ -19,7 +19,7 @@ text = "Загальний дохід працівника складаєтьс�
 total_income = sum_profit(text, generator_numbers)
 print(f"Загальний дохід: {total_income}")
 
-# text2 = "Our income is $1200.50, but our expenses are $300.25 so it gives us pure $900.25. plus my aunt's comission in $25.19"
-# result = sum_profit(text2, generator_numbers)
+text2 = "Our income is $1200.50, but our expenses are $300.25 so it gives us pure $900.25. plus my aunt's comission in $25.19"
+result = sum_profit(text2, generator_numbers)
 
-# print(result)
+print(result)
