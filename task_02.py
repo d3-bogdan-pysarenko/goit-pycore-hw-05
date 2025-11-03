@@ -1,5 +1,5 @@
 import re
-from typing import Callable, Generator
+from typing import Callable
 
 def generator_numbers(text: str):
 
@@ -10,7 +10,7 @@ def generator_numbers(text: str):
         yield float(num)
 
 
-def sum_profit(text, my_function: Callable[[str], Generator]):
+def sum_profit(text: str, my_function: Callable):
     return sum(my_function(text))
 
 
