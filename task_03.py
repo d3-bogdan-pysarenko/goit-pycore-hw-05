@@ -3,7 +3,7 @@ from collections import Counter
 
 def parse_log_line(line: str) -> dict:
     """
-    Парсить рядок логу та повертає словник з ключами:
+    Get dictionary with keys from log row:
     date, time, level, message
     """
     parts = line.strip().split(" ", 3)
@@ -20,7 +20,7 @@ def parse_log_line(line: str) -> dict:
 
 def load_logs(file_path: str) -> list:
     """
-    Зчитує лог-файл і повертає список словників для кожного рядка.
+    Reqding file and getting file rows
     """
     logs = []
     try:
@@ -30,14 +30,14 @@ def load_logs(file_path: str) -> list:
                 if parsed:
                     logs.append(parsed)
     except FileNotFoundError:
-        print(f"❌ Файл '{file_path}' не знайдено.")
+        print(f"File for this path is not found ->  '{file_path}'")
         sys.exit(1)
     return logs
 
 
 def filter_logs_by_level(logs: list, level: str) -> list:
     """
-    Повертає список логів певного рівня (наприклад, 'ERROR').
+    Return logs of set level
     """
     level = level.upper()
     return [log for log in logs if log["level"] == level]
@@ -45,7 +45,7 @@ def filter_logs_by_level(logs: list, level: str) -> list:
 
 def count_logs_by_level(logs: list) -> dict:
     """
-    Підраховує кількість логів для кожного рівня логування.
+    count logs for level
     """
     levels = [log["level"] for log in logs]
     return dict(Counter(levels))
@@ -53,10 +53,10 @@ def count_logs_by_level(logs: list) -> dict:
 
 def display_log_counts(counts: dict):
     """
-    Виводить результати у вигляді таблиці.
+    Display results as table
     """
-    print("\n📊 Статистика логів за рівнями:\n")
-    print(f"{'Рівень':<10} | {'Кількість':>10}")
+    print("\nLog statisticks by level:\n")
+    print(f"{'Level':<10} | {'Count':>10}")
     print("-" * 25)
     for level, count in counts.items():
         print(f"{level:<10} | {count:>10}")
@@ -65,26 +65,26 @@ def display_log_counts(counts: dict):
 
 def main():
     if len(sys.argv) < 2:
-        print("🔹 Використання: python log_analyzer.py <шлях_до_файлу> [<рівень_логування>]")
+        print(" Improper use of file. Please use like in the example below:\n"
+        "Example: python task_03.py <pathto file> [<chosen level to display>]")
         sys.exit(1)
 
     file_path = sys.argv[1]
     logs = load_logs(file_path)
 
     if len(sys.argv) == 3:
-        # користувач вказав рівень логування
+        # When desired level is given
         level = sys.argv[2].upper()
         filtered = filter_logs_by_level(logs, level)
-        if not filtered:
-            print(f"⚠️  Записів рівня {level} не знайдено.")
-        else:
-            print(f"\n🔍 Логи рівня {level}:\n")
-            for log in filtered:
-                print(f"{log['date']} {log['time']} {log['level']} {log['message']}")
-    else:
-        # якщо рівень не вказано — виводимо статистику
         counts = count_logs_by_level(logs)
         display_log_counts(counts)
+        if not filtered:
+            print(f"There is no mentioned level of errors {level} in the file")
+        else:
+            print(f"\nLogs for the type {level}:\n")
+            for log in filtered:
+                print(f"{log['date']} {log['time']} {log['level']} {log['message']}")
+        
 
 
 if __name__ == "__main__":
